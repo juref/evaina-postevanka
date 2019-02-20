@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Bmail - inbox{% endblock title %}
+{% block specifika %}
+    <div class="container math">
+        <div class="col-12">
+            <div class="row-hero">
+                Račun<br/>
+
+                <form class="answer-form row" method="post">
+                    <div class="col-6 equation">
+                        {{ equation }}
+                        =</div>
+                    <div class="col-6">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="answer" name="answer">
+                            <input type="hidden" value="{{ equation }}" name="equation">
+                            <input type="hidden" value="{{ quotient }}" name="quotient">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Preveri</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="{{ style }}" id="fade">{{ note }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock specifika %}
