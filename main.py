@@ -88,7 +88,7 @@ class MainHandler(BaseHandler):
             style = "correct"
         else:
             wrong = 1
-            note = "Ojoj... tole pa ni pravilno!"
+            note = "Ojoj... tole pa ni pravilno! <br/>Pravilen odgovor je " + quotient
             style = "wrong"
 
         try:

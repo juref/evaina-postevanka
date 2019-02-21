@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script
-        src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-        crossorigin="anonymous"></script>
-    <script src="/assets/js/switch.js"></script>
-    <link href="/assets/css/styles.css" rel="stylesheet">
+    <<!-- Latest compiled and minified CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        
+        <!-- Latest compiled JavaScript -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+        <link href="https://fonts.googleapis.com/css?family=Patrick+Hand+SC&amp;subset=latin-ext" rel="stylesheet">
+
+        <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" />
     <head>
         <meta charset="utf-8">
         <title>
@@ -18,26 +27,7 @@
 
     <body>
         {% if user %}
-            <div class="wrapper">
-                <div class="container-fluid bmail-header">
-                    <div class="container">
-                        <div class="row">
-                            Evina poštevanka</div>
-                    </div>
-                </div>
-                <div class="container main-content">
-                    <div class="row">
-                        {% block specifika %}{% endblock specifika %}
-
-                    </div>
-                </div>
-                <div class="push"></div>
-            </div>
-            <div class="container-fluid bmail-footer">
-                <div class="container">
-                    Copyright by Jure Filipič @2019
-                </div>
-            </div>
+            {% block specifika %}{% endblock specifika %}
         {% else %}
             <div class="login-container align-self-center">
                 <div class="container login-page text-center">
@@ -51,8 +41,7 @@
         <script type="text/javascript">
             $('#fade').delay(5000).queue(function () {
                     $(this).addClass("fade");
-                });
-
+            });
         </script>
     </body>
 </html>
