@@ -29,19 +29,31 @@
         {% if user %}
             {% block specifika %}{% endblock specifika %}
         {% else %}
-            <div class="login-container align-self-center">
-                <div class="container login-page text-center">
-                    <h1>Prosim vpiši se z elektonsko pošto</h1>
-                    <a href="{{ login_url }}">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Vpis</a>
+            div class="container">
+            <div class="row">
+                <div class="col-12 full-height">
+                    <div class="calculation-box">
+                        <span class="calculation-title">Prosim vpiši se</span>
+                        <a href="{{ login_url }}">
+                            <i class="fas fa-sign-in-alt"></i>
+                            </a>
+                    </div>
                 </div>
+            </div>
             </div>
         {% endif %}
         <script type="text/javascript">
             $('#fade').delay(5000).queue(function () {
-                    $(this).addClass("fade");
+                $(this).addClass("fade");
             });
         </script>
     </body>
-</html>
+    </html>
+                                            <div class="login-container align-self-center">
+                                                <div class="container login-page text-center">
+                                                    <h1>Prosim vpiši se z elektonsko pošto</h1>
+                                                    <a href="{{ login_url }}">
+                                                        <i class="fas fa-sign-in-alt"></i>
+                                                        Vpis</a>
+                                                </div>
+                                            </div>

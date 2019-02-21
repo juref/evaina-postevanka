@@ -63,7 +63,7 @@ class MainHandler(BaseHandler):
         if user:
             x = random.randint(1, 10)
             y = random.randint(1, 10)
-            equation = str(x) + " * " + str(y)
+            equation = str(x) + " x " + str(y)
             quotient = x * y
             params = {"user": user, "quotient": quotient, "equation": equation}
         else:
@@ -84,7 +84,7 @@ class MainHandler(BaseHandler):
 
         if str(answer) == str(quotient):
             correct = 1
-            note = "Bravo!"
+            note = "Bravo! <br/>" + quotient + " je pravilen odgovor!"
             style = "correct"
         else:
             wrong = 1
@@ -112,7 +112,7 @@ class MainHandler(BaseHandler):
         if user:
             x = random.randint(1, 10)
             y = random.randint(1, 10)
-            equation = str(x) + " * " + str(y)
+            equation = str(x) + " x " + str(y)
             quotient = x * y
 
             params = {"user": user, "equation": equation, "quotient" :quotient, "note": note, "style": style}
