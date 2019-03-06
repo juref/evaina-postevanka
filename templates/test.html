@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>SmartNinja JS course</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div style="width:150px;height:150px;">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    <script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["Pravilno", "Napačno"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19],
+                    backgroundColor: [
+                        'rgba(0, 255, 0, 0.4)',
+                        'rgba(255, 0, 0, 0.4)',
+                    ],
+                    borderColor: [
+                        'rgba(0, 255, 0, 1)',
+                        'rgba(255, 0, 0, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+
+    <script type="text/javascript" src="js/script.js"></script>
+</body>
+
+</html>

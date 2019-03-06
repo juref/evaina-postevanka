@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <<!-- Latest compiled and minified CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous">
+
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+
         <!-- Latest compiled JavaScript -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
-        <link href="https://fonts.googleapis.com/css?family=Patrick+Hand+SC&amp;subset=latin-ext" rel="stylesheet">
-
-        <link href="../assets/css/styles.css" rel="stylesheet" type="text/css" />
-    <head>
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+            crossorigin="anonymous">
+        <link
+            href="https://fonts.googleapis.com/css?family=Dekko|Patrick+Hand+SC&amp;subset=latin-ext"
+            rel="stylesheet">
+        <link href="../assets/css/styles.css" rel="stylesheet" type="text/css"/>
         <meta charset="utf-8">
         <title>
             {% block title %}{% endblock title %}
@@ -29,31 +36,25 @@
         {% if user %}
             {% block specifika %}{% endblock specifika %}
         {% else %}
-            div class="container">
-            <div class="row">
-                <div class="col-12 full-height">
-                    <div class="calculation-box">
-                        <span class="calculation-title">Prosim vpiši se</span>
-                        <a href="{{ login_url }}">
-                            <i class="fas fa-sign-in-alt"></i>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 full-height">
+                        <div class="calculation-box">
+                            <span class="calculation-title">Prosim vpiši se</span>
+                            <a href="{{ login_url }}">
+                                <i class="fas fa-sign-in-alt"></i>
                             </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
         {% endif %}
         <script type="text/javascript">
-            $('#fade').delay(5000).queue(function () {
-                $(this).addClass("fade");
-            });
+            $('#fade')
+                .delay(5000)
+                .queue(function () {
+                    $(this).addClass("fade");
+                });
         </script>
     </body>
-    </html>
-                                            <div class="login-container align-self-center">
-                                                <div class="container login-page text-center">
-                                                    <h1>Prosim vpiši se z elektonsko pošto</h1>
-                                                    <a href="{{ login_url }}">
-                                                        <i class="fas fa-sign-in-alt"></i>
-                                                        Vpis</a>
-                                                </div>
-                                            </div>
+</html>

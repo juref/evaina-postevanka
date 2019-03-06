@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Evina poštevanka{% endblock title %}
+{% block specifika %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 full-height">
+                <div class="calculation-box">
+                    <span class="calculation-title">{{ name }} kako ti je šlo?</span>
+                    <div class="calculation">
+                        <div class="">Od {{ number }} računov, je bilo {{ todayCorrect }} pravilnih in {{ todayWrong }} napačnih.</div>
+                        <form method="POST" action="/">
+                           
+                            <input type="hidden" value="{{ equation }}" name="equation">
+                            <input type="hidden" value="{{ quotient }}" name="quotient">
+                            <input type="hidden" value="{{ today }}" name="today">
+                            <input type="hidden" value="{{ todayCorrect }}" name="todayCorrect">
+                            <input type="hidden" value="{{ todayWrong }}" name="todayWrong">
+                            
+                            
+                        </form>
+                        <div style="width:350px;height:350px; margin: 0 auto;">
+                            <canvas id="myChart" width="400" height="400"></canvas>
+                        </div>
+                        <script>
+                            var ctx = document.getElementById("myChart").getContext('2d');
+                            var myChart = new Chart(ctx, {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ["Pravilno ({{ todayCorrect }})", "Napačno ({{ todayWrong }})"],
+                                    datasets: [{
+                                        label: '# of Votes',
+                                        data: [{{ todayCorrect }}, {{ todayWrong }}],
+                                        backgroundColor: [
+                                            'rgba(50, 120, 50, 0.8)',
+                                            'rgba(230, 70, 50, 0.6)',
+                                        ],
+                                        borderColor: [
+                                            'rgba(50, 120, 50, 1)',
+                                            'rgba(230, 70, 50, 1)',
+                                        ],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    rotation: 3.5 * Math.PI 
+                                }
+                            });
+                        </script>
+                        <div class="{{ style }}" id="fade">{{ note }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock specifika %}

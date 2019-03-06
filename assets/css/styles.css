@@ -5,7 +5,7 @@ body {
     background-position: center;
     width: 100%;
     height: 100vh;
-    font-family: 'Patrick Hand SC', cursive;
+    font-family: 'Dekko', cursive;
     color: #315950;
 }
 .full-height {
@@ -31,6 +31,7 @@ body {
 }
 .calculation-box span,
 .user-guess {
+    text-align: center;
     font-size: 112px;
 }
 .calculation-title {
@@ -39,6 +40,7 @@ body {
     margin-top: 25px;
 }
 .calculation {
+    font-family: 'Patrick Hand SC', cursive;
     text-align: center;
     margin-bottom: 75px;
 }
@@ -54,7 +56,7 @@ body {
     color: #4A90E2;
 }
 .user-guess--border {
-    background-color: #4A90E2;
+    background-color: #4a90e2;
     border-radius: 4px;
     height: 8px;
     width: 170px;
@@ -63,6 +65,7 @@ body {
     bottom: 0;
 }
 .user-guess {
+    font-family: 'Patrick Hand SC', cursive;
     width: 170px;
     line-height: 1;
     border: none;
@@ -70,6 +73,19 @@ body {
     color: #4A90E2;
     outline: none;
 }
+.user-name {
+    width: 500px;
+}
+.user-name--border {
+    background-color: #4a90e2;
+    border-radius: 4px;
+    height: 8px;
+    width: 500px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
 .progress {
     position: absolute;
     width: 100%;
@@ -79,7 +95,8 @@ body {
     height: 14px;
 }
 .progress-bar {
-    background-color: #EE964B;
+    /* background-image: linear-gradient(to right, red, #f06d06, rgb(255, 255, 0), green); */
+    background-color: red
 }
 .correct {
     opacity: 1;
@@ -104,16 +121,28 @@ a .fas {
     color: #315950;
     font-size: 7em;
     transition: color 0.25s ease-in-out;
-    
+
 }
 a:hover .fas {
     color: #ffbf00;
     text-decoration: none;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.progress-bar.red {
+    background-color: red;
+}
+.progress-bar.orange {
+    background-color: orange;
+}
+.progress-bar.green {
+    background-color: yellow;
+}
+.progress-bar.green {
+    background-color: greenyellow;
 }
 @media only screen and (max-width: 992px) {
     .calculation-box {
@@ -126,9 +155,9 @@ input[type=number]::-webkit-outer-spin-button {
     .calculation button i {
         font-size: 55px;
     }
-    .user-guess--border,
-    .user-guess {
-        width: 120px;
+    .user-guess,
+    .user-guess--border {
+        width: 190px;
     }
     .user-guess--border {
         border-radius: 3px;
@@ -146,8 +175,8 @@ input[type=number]::-webkit-outer-spin-button {
     .calculation button i {
         font-size: 53px;
     }
-    .user-guess--border,
-    .user-guess {
+    .user-guess,
+    .user-guess--border {
         width: 110px;
     }
 }
@@ -171,8 +200,8 @@ input[type=number]::-webkit-outer-spin-button {
     .calculation button {
         padding: 2px;
     }
-    .user-guess--border,
-    .user-guess {
+    .user-guess,
+    .user-guess--border {
         width: 60px;
     }
     .user-guess--border {

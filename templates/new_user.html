@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Evina poštevanka{% endblock title %}
+{% block specifika %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 full-height">
+                <div class="calculation-box">
+                    <span class="calculation-title">Živijo</span>
+
+                    <div class="calculation">
+                        <span>Prosim vnesi svoje ime</span><br/>
+                        <form method="POST" action="/new_user">
+                            <input
+                                class="user-guess user-name"
+                                type="text"
+                                name="name"
+                                autofocus="autofocus">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                            </button>
+                            <div class="user-name--border"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock specifika %}
+
+Trgovanje in prodaja električne
+energije in zemeljskega plina 
