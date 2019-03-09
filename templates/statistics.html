@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-12 full-height">
                 <div class="calculation-box">
-                    <span class="calculation-title">{{ name }} kako ti je šlo?</span>
+                    <span class="calculation-title">{{ name }} kako je šlo?</span>
                     <div class="calculation">
                         <div class="">Od {{ number }} računov, je bilo {{ todayCorrect }} pravilnih in {{ todayWrong }} napačnih.</div>
                         <form method="POST" action="/">
@@ -47,6 +47,7 @@
                             });
                         </script>
                         <div class="{{ style }}" id="fade">{{ note }}</div>
+                        <a href="/">Še enkrat!</a> <a href="{{ logout_url }}">Zaključi</a>
                     </div>
                 </div>
             </div>

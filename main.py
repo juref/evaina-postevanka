@@ -55,6 +55,25 @@ class BaseHandler(webapp2.RequestHandler):
         template = jinja_env.get_template(view_filename)
         self.response.out.write(template.render(params))
 
+### račun ###
+def newEquation(multiplying,dividing):
+    x = random.randint(1, 10)
+    y = random.randint(1, 10)
+    options = []
+
+    if multiplying:
+        options.append("x")
+    if dividing:
+        options.append(":")
+
+    operator = random.choice(options)
+
+    if operator == ":":
+        x = x * y
+
+    params = {"x": x, "y": y, "operator": operator}
+    return params
+
 
 class MainHandler(BaseHandler):
     def get(self):
@@ -83,10 +102,6 @@ class MainHandler(BaseHandler):
         dividing = self.request.get("dividing")
         number = self.request.get("number")
 
-        logging.info(multiplying)
-        logging.info(dividing)
-        logging.info(number)
-
         params = {
             "user": user,
             "multiplying": multiplying,
@@ -107,19 +122,22 @@ class CalculationHandler(BaseHandler):
         today = 0
         step = 100 / int(number)
         counter = 1
-        logging.info(step)
+        todayCorrect = 0
+        todayWrong = 0
+
+        if multiplying and dividing:
+            options = ['x', ':',]
+            operator = random.choice(options)
+
+        elif multiplying:
+            operator = "x"
+
+        elif dividing:
+            operator = ":"
 
         if user:
-            x = random.randint(1, 10)
-            y = random.randint(1, 10)
-            equation = str(x) + " x " + str(y)
-            quotient = x * y
-            todayCorrect = 0
-            todayWrong = 0
             params = {
                 "user": user,
-                "quotient": quotient,
-                "equation": equation,
                 "today": today,
                 "todayCorrect": todayCorrect,
                 "todayWrong": todayWrong,
@@ -129,6 +147,8 @@ class CalculationHandler(BaseHandler):
                 "counter": counter,
                 "number": number,
             }
+            params.update(newEquation(multiplying,dividing))
+
         else:
             login_url = users.create_login_url('/')
             params = {"login_url": login_url}
@@ -139,23 +159,33 @@ class CalculationHandler(BaseHandler):
     def post(self):
         user = users.get_current_user()
         math_user = user.email()
-        name = name = (MathUser.query(MathUser.mathUser == str(user.email())).get()).mathUserName
+        name = (MathUser.query(MathUser.mathUser == str(user.email())).get()).mathUserName
+
         multiplying = self.request.get("multiplying")
         dividing = self.request.get("dividing")
-        equation = self.request.get("equation")
+
+        x = self.request.get("x")
+        y = self.request.get("y")
+        operator = self.request.get("operator")
+
         answer = self.request.get("answer")
-        quotient = self.request.get("quotient")
+
         todayCorrect = self.request.get("todayCorrect")
         todayWrong = self.request.get("todayWrong")
         today = self.request.get("today")
         number = self.request.get("number")
         step = self.request.get("step")
+
+        logging.info(todayCorrect)
+        logging.info(todayWrong)
+
+        equation = str(x) + " " + operator + " " + str(y)
         correct = 0
         wrong = 0
         today = int(today) + int(step)
         counter = int(today) / int(step) + 1
 
-
+        ### Barva progress bara ###
         if today < 50:
             progressColour = "red"
         elif today < 80:
@@ -165,19 +195,40 @@ class CalculationHandler(BaseHandler):
         else:
             progressColour = "green"
 
+        ### Preverjanje rezultata glede na funkcijo ###
+        if operator == "x":
+            if str(answer) == str(int(x) * int(y)):
+                correct = 1
+                note = "Bravo! pravilen odgovor!"
+                style = "correct"
+            else:
+                wrong = 1
+                note = "Napačno! Pravilen odgovor je " + str(int(x) * int(y))
+                style = "wrong"
 
-        if str(answer) == str(quotient):
-            correct = 1
-            note = "Bravo! pravilen odgovor!"
-            style = "correct"
-        else:
-            wrong = 1
-            note = "Napačno! Pravilen odgovor je " + quotient
-            style = "wrong"
+            todayCorrect = int(todayCorrect) + correct
+            todayWrong = int(todayWrong) + wrong
+            logging.info(todayCorrect)
+            logging.info(todayWrong)
 
-        todayCorrect = int(todayCorrect) + correct
-        todayWrong = int(todayWrong) + wrong
+        elif operator == ":":
+            if str(answer) == str(int(x) / int(y)):
+                correct = 1
+                note = "Bravo! pravilen odgovor!"
+                style = "correct"
+            else:
+                wrong = 1
+                note = "Napačno! Pravilen odgovor je " + str(int(x) / int(y))
+                style = "wrong"
+            logging.info(correct)
+            logging.info(wrong)
+            todayCorrect = int(todayCorrect) + correct
+            todayWrong = int(todayWrong) + wrong
 
+            logging.info(todayCorrect)
+            logging.info(todayWrong)
+
+        ### preverjanje ali je račun že vpisani in vpis ali je bil rešen pravilno ###
         try:
             equation_id = (Equations.query(Equations.theEquation == equation, Equations.mathUser == str(user.email())).get()).key.id()
             equation_data = Equations.get_by_id(int(equation_id))
@@ -194,12 +245,12 @@ class CalculationHandler(BaseHandler):
                                       correctAnswer=correctAnswer, wrongAnswer=wrongAnswer)
             equation_data.put()
 
+        ### zaključek računanja ko je progress 100% ###
         if today >= 100:
+            logout_url = users.create_logout_url('/')
             params = {
                 "user": user,
                 "name": name,
-                "equation": equation,
-                "quotient": quotient,
                 "note": note,
                 "style": style,
                 "todayCorrect": todayCorrect,
@@ -207,38 +258,48 @@ class CalculationHandler(BaseHandler):
                 "step": step,
                 "counter": counter,
                 "number": number,
+                "logout_url": logout_url
             }
             self.html = "statistics.html"
             return self.render_template("%s" % self.html, params=params)
 
+        ### kreiranje novega računa in passanje v hrml ###
         else:
             if user:
-                x = random.randint(1, 10)
-                y = random.randint(1, 10)
-                equation = str(x) + " x " + str(y)
-                quotient = x * y
-
-                params = {
+               params = {
                     "user": user,
-                    "equation": equation,
-                    "quotient" :quotient,
-                    "note": note,
-                    "style": style,
+                    "operator": operator,
                     "today": today,
-                    "progressColour": progressColour,
                     "todayCorrect": todayCorrect,
                     "todayWrong": todayWrong,
                     "step": step,
+                    "multiplying": multiplying,
+                    "dividing": dividing,
                     "counter": counter,
                     "number": number,
-                }
+                    "note": note,
+                    "style": style,
+               }
 
+               if multiplying and dividing:
+                   options = ['x', ':', ]
+                   operator = random.choice(options)
+
+               elif multiplying:
+                   operator = "x"
+
+               elif dividing:
+                   operator = ":"
+               params.update(newEquation(multiplying,dividing))
+
+
+            ### redirect za nelogiranga userja ###
             else:
                 login_url = users.create_login_url('/')
                 params = {"login_url": login_url}
 
-        self.html = "calculation.html"
-        return self.render_template("%s" % self.html, params=params)
+            self.html = "calculation.html"
+            return self.render_template("%s" % self.html, params=params)
 
 
 class NewUserHandler(BaseHandler):

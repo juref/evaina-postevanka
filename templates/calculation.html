@@ -5,10 +5,9 @@
         <div class="row">
             <div class="col-12 full-height">
                 <div class="calculation-box">
-                    <span class="calculation-title">Izračunaj</span> {{ counter }}/{{ number }}
+                    <span class="calculation-title">Izračunaj</span>
                     <div class="calculation">
-                        <span>{{ equation }}
-                            =
+                        <span>{{ x }} {{ operator }} {{ y }} =
                         </span>
                         <form method="POST" action="/calculation">
                             <input class="user-guess" 
@@ -16,8 +15,9 @@
                                 maxlength="3"
                                 name="answer"
                                 autofocus="autofocus">
-                            <input type="hidden" value="{{ equation }}" name="equation">
-                            <input type="hidden" value="{{ quotient }}" name="quotient">
+                            <input type="hidden" value="{{ x }}" name="x">
+                            <input type="hidden" value="{{ y }}" name="y">
+                            <input type="hidden" value="{{ operator }}" name="operator">
                             <input type="hidden" value="{{ today }}" name="today">
                             <input type="hidden" value="{{ todayCorrect }}" name="todayCorrect">
                             <input type="hidden" value="{{ todayWrong }}" name="todayWrong">
@@ -34,6 +34,7 @@
                         
                     </div>
                     <div class="progress">
+                        <div class="progrees--number">{{ counter }}/{{ number }}</div>
                         <div
                             class="progress-bar {{ progressColour }}"
                             role="progressbar"

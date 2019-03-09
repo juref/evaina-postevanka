@@ -91,8 +91,8 @@ body {
     width: 100%;
     bottom: -50px;
     left: 0;
-    border-radius: 7px;
-    height: 14px;
+    border-radius: 10px;
+    height: 20px;
 }
 .progress-bar {
     /* background-image: linear-gradient(to right, red, #f06d06, rgb(255, 255, 0), green); */
@@ -143,6 +143,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .progress-bar.green {
     background-color: greenyellow;
+}
+.progrees--number {
+    position: absolute;
+    right: 6px;
+    top: 2px;
 }
 @media only screen and (max-width: 992px) {
     .calculation-box {
