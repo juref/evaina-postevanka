@@ -56,17 +56,36 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(params))
 
 ### račun ###
-def newEquation(multiplying,dividing):
+def newEquation(addition,difference,multiplying,dividing):
     x = random.randint(1, 10)
     y = random.randint(1, 10)
     options = []
 
+    if addition:
+        options.append("+")
+    if difference:
+        options.append("-")
     if multiplying:
         options.append("x")
     if dividing:
         options.append(":")
 
     operator = random.choice(options)
+
+    if operator == "+":
+        x = random.randint(1, 100)
+        y = random.randint(1, 100)
+        while x + y >= 100:
+            x = random.randint(1, 100)
+            y = random.randint(1, 100)
+
+    if operator == "-":
+        x = random.randint(1, 100)
+        y = random.randint(1, 100)
+
+        while x <= y:
+            x = random.randint(1, 100)
+            y = random.randint(1, 100)
 
     if operator == ":":
         x = x * y
@@ -98,12 +117,16 @@ class MainHandler(BaseHandler):
 
     def post(self):
         user = users.get_current_user()
+        addition = self.request.get("addition")
+        difference = self.request.get("difference")
         multiplying = self.request.get("multiplying")
         dividing = self.request.get("dividing")
         number = self.request.get("number")
 
         params = {
             "user": user,
+            "addition": addition,
+            "difference": difference,
             "multiplying": multiplying,
             "dividing": dividing,
             "number": number
@@ -116,6 +139,8 @@ class MainHandler(BaseHandler):
 class CalculationHandler(BaseHandler):
     def get(self):
         user = users.get_current_user()
+        addition = self.request.get("addition")
+        difference = self.request.get("difference")
         multiplying = self.request.get("multiplying")
         dividing = self.request.get("dividing")
         number = self.request.get("number")
@@ -125,15 +150,16 @@ class CalculationHandler(BaseHandler):
         todayCorrect = 0
         todayWrong = 0
 
-        if multiplying and dividing:
-            options = ['x', ':',]
-            operator = random.choice(options)
+        options = []
 
-        elif multiplying:
-            operator = "x"
-
-        elif dividing:
-            operator = ":"
+        if addition:
+            options.append("+")
+        if difference:
+            options.append("-")
+        if multiplying:
+            options.append("x")
+        if dividing:
+            options.append(":")
 
         if user:
             params = {
@@ -142,12 +168,14 @@ class CalculationHandler(BaseHandler):
                 "todayCorrect": todayCorrect,
                 "todayWrong": todayWrong,
                 "step": step,
+                "addition": addition,
+                "difference": difference,
                 "multiplying": multiplying,
                 "dividing": dividing,
                 "counter": counter,
                 "number": number,
             }
-            params.update(newEquation(multiplying,dividing))
+            params.update(newEquation(addition,difference,multiplying,dividing))
 
         else:
             login_url = users.create_login_url('/')
@@ -161,6 +189,8 @@ class CalculationHandler(BaseHandler):
         math_user = user.email()
         name = (MathUser.query(MathUser.mathUser == str(user.email())).get()).mathUserName
 
+        addition = self.request.get("addition")
+        difference = self.request.get("difference")
         multiplying = self.request.get("multiplying")
         dividing = self.request.get("dividing")
 
@@ -194,6 +224,32 @@ class CalculationHandler(BaseHandler):
             progressColour = "green"
 
         ### Preverjanje rezultata glede na funkcijo ###
+        if operator == "+":
+            if str(answer) == str(int(x) + int(y)):
+                correct = 1
+                note = "Bravo! pravilen odgovor!"
+                style = "correct"
+            else:
+                wrong = 1
+                note = "Napačno! Pravilen odgovor je " + str(int(x) + int(y))
+                style = "wrong"
+
+            todayCorrect = int(todayCorrect) + correct
+            todayWrong = int(todayWrong) + wrong
+
+        if operator == "-":
+            if str(answer) == str(int(x) - int(y)):
+                correct = 1
+                note = "Bravo! pravilen odgovor!"
+                style = "correct"
+            else:
+                wrong = 1
+                note = "Napačno! Pravilen odgovor je " + str(int(x) - int(y))
+                style = "wrong"
+
+            todayCorrect = int(todayCorrect) + correct
+            todayWrong = int(todayWrong) + wrong
+
         if operator == "x":
             if str(answer) == str(int(x) * int(y)):
                 correct = 1
@@ -265,6 +321,8 @@ class CalculationHandler(BaseHandler):
                     "todayCorrect": todayCorrect,
                     "todayWrong": todayWrong,
                     "step": step,
+                    "addition": addition,
+                    "difference": difference,
                     "multiplying": multiplying,
                     "dividing": dividing,
                     "counter": counter,
@@ -274,16 +332,17 @@ class CalculationHandler(BaseHandler):
                     "progressColour": progressColour,
                }
 
-               if multiplying and dividing:
-                   options = ['x', ':', ]
-                   operator = random.choice(options)
+               options = []
 
-               elif multiplying:
-                   operator = "x"
-
-               elif dividing:
-                   operator = ":"
-               params.update(newEquation(multiplying,dividing))
+               if addition:
+                   options.append("+")
+               if difference:
+                   options.append("-")
+               if multiplying:
+                   options.append("x")
+               if dividing:
+                   options.append(":")
+               params.update(newEquation(addition,difference,multiplying,dividing))
 
 
             ### redirect za nelogiranga userja ###
