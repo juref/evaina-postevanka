@@ -176,21 +176,19 @@ class CalculationHandler(BaseHandler):
         number = self.request.get("number")
         step = self.request.get("step")
 
-        logging.info(todayCorrect)
-        logging.info(todayWrong)
-
         equation = str(x) + " " + operator + " " + str(y)
         correct = 0
         wrong = 0
         today = int(today) + int(step)
         counter = int(today) / int(step) + 1
-
+        logging.info(today)
+        logging.info(step)
         ### Barva progress bara ###
         if today < 50:
             progressColour = "red"
-        elif today < 80:
+        elif today < 75:
             progressColour = "orange"
-        elif today < 95:
+        elif today < 89:
             progressColour = "yellow"
         else:
             progressColour = "green"
@@ -208,8 +206,6 @@ class CalculationHandler(BaseHandler):
 
             todayCorrect = int(todayCorrect) + correct
             todayWrong = int(todayWrong) + wrong
-            logging.info(todayCorrect)
-            logging.info(todayWrong)
 
         elif operator == ":":
             if str(answer) == str(int(x) / int(y)):
@@ -220,13 +216,8 @@ class CalculationHandler(BaseHandler):
                 wrong = 1
                 note = "Napačno! Pravilen odgovor je " + str(int(x) / int(y))
                 style = "wrong"
-            logging.info(correct)
-            logging.info(wrong)
             todayCorrect = int(todayCorrect) + correct
             todayWrong = int(todayWrong) + wrong
-
-            logging.info(todayCorrect)
-            logging.info(todayWrong)
 
         ### preverjanje ali je račun že vpisani in vpis ali je bil rešen pravilno ###
         try:
@@ -258,7 +249,8 @@ class CalculationHandler(BaseHandler):
                 "step": step,
                 "counter": counter,
                 "number": number,
-                "logout_url": logout_url
+                "logout_url": logout_url,
+                "progressColour": progressColour,
             }
             self.html = "statistics.html"
             return self.render_template("%s" % self.html, params=params)
@@ -279,6 +271,7 @@ class CalculationHandler(BaseHandler):
                     "number": number,
                     "note": note,
                     "style": style,
+                    "progressColour": progressColour,
                }
 
                if multiplying and dividing:
