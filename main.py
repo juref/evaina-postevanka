@@ -59,6 +59,7 @@ class BaseHandler(webapp2.RequestHandler):
 def newEquation(addition,difference,multiplying,dividing):
     x = random.randint(1, 10)
     y = random.randint(1, 10)
+    result = x * y
     options = []
 
     if addition:
@@ -75,22 +76,26 @@ def newEquation(addition,difference,multiplying,dividing):
     if operator == "+":
         x = random.randint(1, 100)
         y = random.randint(1, 100)
+        result = x + y
         while x + y >= 100:
             x = random.randint(1, 100)
             y = random.randint(1, 100)
+            result = x + y
 
     if operator == "-":
         x = random.randint(1, 100)
         y = random.randint(1, 100)
-
+        result = x - y
         while x <= y:
             x = random.randint(1, 100)
             y = random.randint(1, 100)
+            result = x - y
 
     if operator == ":":
         x = x * y
+        result = x / y
 
-    params = {"x": x, "y": y, "operator": operator}
+    params = {"x": x, "y": y, "operator": operator, "result": result}
     return params
 
 
@@ -122,6 +127,8 @@ class MainHandler(BaseHandler):
         multiplying = self.request.get("multiplying")
         dividing = self.request.get("dividing")
         number = self.request.get("number")
+        missing_number = self.request.get("missing_number")
+        logging.info(missing_number)
 
         params = {
             "user": user,
@@ -129,7 +136,8 @@ class MainHandler(BaseHandler):
             "difference": difference,
             "multiplying": multiplying,
             "dividing": dividing,
-            "number": number
+            "number": number,
+            "missing-number": missing_number
         }
 
         self.html = "calculation.html"
@@ -144,6 +152,8 @@ class CalculationHandler(BaseHandler):
         multiplying = self.request.get("multiplying")
         dividing = self.request.get("dividing")
         number = self.request.get("number")
+        missing_number = self.request.get("missing_number")
+        logging.info(missing_number)
         today = 0
         step = 100 / int(number)
         counter = 1
@@ -174,6 +184,7 @@ class CalculationHandler(BaseHandler):
                 "dividing": dividing,
                 "counter": counter,
                 "number": number,
+                "missing_number": missing_number
             }
             params.update(newEquation(addition,difference,multiplying,dividing))
 
@@ -196,6 +207,8 @@ class CalculationHandler(BaseHandler):
 
         x = self.request.get("x")
         y = self.request.get("y")
+        resault = self.request.get("resault")
+        correct_answer = self.request.get("correct_answer")
         operator = self.request.get("operator")
 
         answer = self.request.get("answer")
@@ -204,6 +217,7 @@ class CalculationHandler(BaseHandler):
         todayWrong = self.request.get("todayWrong")
         today = self.request.get("today")
         number = self.request.get("number")
+        missing_number = self.request.get("missing_number")
         step = self.request.get("step")
 
         equation = str(x) + " " + operator + " " + str(y)
@@ -211,8 +225,7 @@ class CalculationHandler(BaseHandler):
         wrong = 0
         today = int(today) + int(step)
         counter = int(today) / int(step) + 1
-        logging.info(today)
-        logging.info(step)
+
         ### Barva progress bara ###
         if today < 50:
             progressColour = "red"
@@ -224,56 +237,69 @@ class CalculationHandler(BaseHandler):
             progressColour = "green"
 
         ### Preverjanje rezultata glede na funkcijo ###
-        if operator == "+":
-            if str(answer) == str(int(x) + int(y)):
-                correct = 1
-                note = "Bravo! pravilen odgovor!"
-                style = "correct"
-            else:
-                wrong = 1
-                note = "Napačno! Pravilen odgovor je " + str(int(x) + int(y))
-                style = "wrong"
 
-            todayCorrect = int(todayCorrect) + correct
-            todayWrong = int(todayWrong) + wrong
+        if answer == correct_answer:
+            correct = 1
+            note = "Bravo! pravilen odgovor!"
+            style = "correct"
+        else:
+            wrong = 1
+            note = "Napačno! Pravilen odgovor je " + correct_answer
+            style = "wrong"
 
-        if operator == "-":
-            if str(answer) == str(int(x) - int(y)):
-                correct = 1
-                note = "Bravo! pravilen odgovor!"
-                style = "correct"
-            else:
-                wrong = 1
-                note = "Napačno! Pravilen odgovor je " + str(int(x) - int(y))
-                style = "wrong"
+        todayCorrect = int(todayCorrect) + correct
+        todayWrong = int(todayWrong) + wrong
 
-            todayCorrect = int(todayCorrect) + correct
-            todayWrong = int(todayWrong) + wrong
-
-        if operator == "x":
-            if str(answer) == str(int(x) * int(y)):
-                correct = 1
-                note = "Bravo! pravilen odgovor!"
-                style = "correct"
-            else:
-                wrong = 1
-                note = "Napačno! Pravilen odgovor je " + str(int(x) * int(y))
-                style = "wrong"
-
-            todayCorrect = int(todayCorrect) + correct
-            todayWrong = int(todayWrong) + wrong
-
-        elif operator == ":":
-            if str(answer) == str(int(x) / int(y)):
-                correct = 1
-                note = "Bravo! pravilen odgovor!"
-                style = "correct"
-            else:
-                wrong = 1
-                note = "Napačno! Pravilen odgovor je " + str(int(x) / int(y))
-                style = "wrong"
-            todayCorrect = int(todayCorrect) + correct
-            todayWrong = int(todayWrong) + wrong
+        # if operator == "+":
+        #     if str(answer) == str(int(x) + int(y)):
+        #         correct = 1
+        #         note = "Bravo! pravilen odgovor!"
+        #         style = "correct"
+        #     else:
+        #         wrong = 1
+        #         note = "Napačno! Pravilen odgovor je " + str(int(x) + int(y))
+        #         style = "wrong"
+        #
+        #     todayCorrect = int(todayCorrect) + correct
+        #     todayWrong = int(todayWrong) + wrong
+        #
+        # if operator == "-":
+        #     if str(answer) == str(int(x) - int(y)):
+        #         correct = 1
+        #         note = "Bravo! pravilen odgovor!"
+        #         style = "correct"
+        #     else:
+        #         wrong = 1
+        #         note = "Napačno! Pravilen odgovor je " + str(int(x) - int(y))
+        #         style = "wrong"
+        #
+        #     todayCorrect = int(todayCorrect) + correct
+        #     todayWrong = int(todayWrong) + wrong
+        #
+        # if operator == "x":
+        #     if str(answer) == str(int(x) * int(y)):
+        #         correct = 1
+        #         note = "Bravo! pravilen odgovor!"
+        #         style = "correct"
+        #     else:
+        #         wrong = 1
+        #         note = "Napačno! Pravilen odgovor je " + str(int(x) * int(y))
+        #         style = "wrong"
+        #
+        #     todayCorrect = int(todayCorrect) + correct
+        #     todayWrong = int(todayWrong) + wrong
+        #
+        # elif operator == ":":
+        #     if str(answer) == str(int(x) / int(y)):
+        #         correct = 1
+        #         note = "Bravo! pravilen odgovor!"
+        #         style = "correct"
+        #     else:
+        #         wrong = 1
+        #         note = "Napačno! Pravilen odgovor je " + str(int(x) / int(y))
+        #         style = "wrong"
+        #     todayCorrect = int(todayCorrect) + correct
+        #     todayWrong = int(todayWrong) + wrong
 
         ### preverjanje ali je račun že vpisani in vpis ali je bil rešen pravilno ###
         try:
@@ -312,6 +338,7 @@ class CalculationHandler(BaseHandler):
             return self.render_template("%s" % self.html, params=params)
 
         ### kreiranje novega računa in passanje v hrml ###
+
         else:
             if user:
                params = {
@@ -330,6 +357,7 @@ class CalculationHandler(BaseHandler):
                     "note": note,
                     "style": style,
                     "progressColour": progressColour,
+                    "missing_number": missing_number,
                }
 
                options = []
@@ -349,7 +377,7 @@ class CalculationHandler(BaseHandler):
             else:
                 login_url = users.create_login_url('/')
                 params = {"login_url": login_url}
-
+            logging.info(missing_number)
             self.html = "calculation.html"
             return self.render_template("%s" % self.html, params=params)
 
