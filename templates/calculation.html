@@ -8,10 +8,10 @@
                     <span class="calculation-title">Izračunaj</span>
                     <div class="calculation">
                         {% if missing_number %}
-                            {% set missing = range(1, 3) | random %}
+                            {% set missing = range(1, 4) | random %}
                             {% if missing == 1 %}
-                                <span>
-                                    <form method="POST" action="/calculation"><input
+                                <form method="POST" action="/calculation">
+                                    <span><input
                                         class="user-guess"
                                         type="number"
                                         maxlength="3"
@@ -26,10 +26,11 @@
                                         =
                                         {{ result }}</span>
                                     <input type="hidden" value="{{ missing }}" name="missing">{% set correct_answer = x %}
-                                {% else %}
+                                {% elif missing == 2 %}
                                     <span>{{ x }}
-                                        {{ operator }}
-                                        <form method="POST" action="/calculation"><input
+                                        {{ operator }}</span>
+                                    <form method="POST" action="/calculation">
+                                        <span><input
                                             class="user-guess"
                                             type="number"
                                             maxlength="3"
@@ -42,55 +43,72 @@
                                             =
                                             {{ result }}</span>
                                         <input type="hidden" value="{{ missing }}" name="missing">{% set correct_answer = y %}
-                                    {% endif %}
-                                {% else %}
-                                    <span>{{ x }}
-                                        {{ operator }}
-                                        {{ y }}
-                                        =
-                                        <form method="POST" action="/calculation"><input
-                                            class="user-guess"
-                                            type="number"
-                                            maxlength="3"
-                                            min="0"
-                                            max="100"
-                                            name="answer"
-                                            autofocus="autofocus"
-                                            required="required"
-                                            pattern="[0-9]">{% set correct_answer = result %}
-                                        </span>
-                                    {% endif %}
-                                    <input type="hidden" value="{{ x }}" name="x">
-                                    <input type="hidden" value="{{ y }}" name="y">
-                                    <input type="hidden" value="{{ result }}" name="result">
-                                    <input type="hidden" value="{{ correct_answer }}" name="correct_answer">
-                                    <input type="hidden" value="{{ operator }}" name="operator">
-                                    <input type="hidden" value="{{ today }}" name="today">
-                                    <input type="hidden" value="{{ todayCorrect }}" name="todayCorrect">
-                                    <input type="hidden" value="{{ todayWrong }}" name="todayWrong">
-                                    <input type="hidden" value="{{ addition }}" name="addition">
-                                    <input type="hidden" value="{{ difference }}" name="difference">
-                                    <input type="hidden" value="{{ multiplying }}" name="multiplying">
-                                    <input type="hidden" value="{{ dividing }}" name="dividing">
-                                    <input type="hidden" value="{{ step }}" name="step">
-                                    <input type="hidden" value="{{ number }}" name="number">
-                                    <input type="hidden" value="{{ missing_number }}" name="missing_number">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                    </button>
-                                    <div class="user-guess--border"></div>
-                                </form>
-                                <div class="{{ style }}" id="fade">{{ note }}</div>
-                            </div>
-                            <div class="progress">
-                                <div class="progrees--number">{{ counter }}/{{ number }}</div>
-                                <div
-                                    class="progress-bar {{ progressColour }}"
-                                    role="progressbar"
-                                    style="width:{{ today }}%"></div>
+                                    {% else %}
+                                        <span>{{ x }}
+                                            {{ operator }}
+                                            {{ y }}
+                                            =</span>
+                                        <form method="POST" action="/calculation">
+                                            <span><input
+                                                class="user-guess"
+                                                type="number"
+                                                maxlength="3"
+                                                min="0"
+                                                max="100"
+                                                name="answer"
+                                                autofocus="autofocus"
+                                                required="required"
+                                                pattern="[0-9]">{% set correct_answer = result %}
+                                            </span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span>{{ x }}
+                                            {{ operator }}
+                                            {{ y }}
+                                            =
+                                            <form method="POST" action="/calculation"><input
+                                                class="user-guess"
+                                                type="number"
+                                                maxlength="3"
+                                                min="0"
+                                                max="100"
+                                                name="answer"
+                                                autofocus="autofocus"
+                                                required="required"
+                                                pattern="[0-9]">{% set correct_answer = result %}
+                                            </span>
+                                        {% endif %}
+                                        <input type="hidden" value="{{ x }}" name="x">
+                                        <input type="hidden" value="{{ y }}" name="y">
+                                        <input type="hidden" value="{{ result }}" name="result">
+                                        <input type="hidden" value="{{ correct_answer }}" name="correct_answer">
+                                        <input type="hidden" value="{{ operator }}" name="operator">
+                                        <input type="hidden" value="{{ today }}" name="today">
+                                        <input type="hidden" value="{{ todayCorrect }}" name="todayCorrect">
+                                        <input type="hidden" value="{{ todayWrong }}" name="todayWrong">
+                                        <input type="hidden" value="{{ addition }}" name="addition">
+                                        <input type="hidden" value="{{ difference }}" name="difference">
+                                        <input type="hidden" value="{{ multiplying }}" name="multiplying">
+                                        <input type="hidden" value="{{ dividing }}" name="dividing">
+                                        <input type="hidden" value="{{ step }}" name="step">
+                                        <input type="hidden" value="{{ number }}" name="number">
+                                        <input type="hidden" value="{{ missing_number }}" name="missing_number">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="user-guess--border"></div>
+                                    </form>
+                                    <div class="{{ style }}" id="fade">{{ note }}</div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progrees--number">{{ counter }}/{{ number }}</div>
+                                    <div
+                                        class="progress-bar {{ progressColour }}"
+                                        role="progressbar"
+                                        style="width:{{ today }}%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endblock specifika %}
+            {% endblock specifika %}

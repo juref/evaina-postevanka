@@ -236,8 +236,7 @@ class CalculationHandler(BaseHandler):
         else:
             progressColour = "green"
 
-        ### Preverjanje rezultata glede na funkcijo ###
-
+        ### Preverjanje rezultata ###
         if answer == correct_answer:
             correct = 1
             note = "Bravo! pravilen odgovor!"
@@ -249,57 +248,6 @@ class CalculationHandler(BaseHandler):
 
         todayCorrect = int(todayCorrect) + correct
         todayWrong = int(todayWrong) + wrong
-
-        # if operator == "+":
-        #     if str(answer) == str(int(x) + int(y)):
-        #         correct = 1
-        #         note = "Bravo! pravilen odgovor!"
-        #         style = "correct"
-        #     else:
-        #         wrong = 1
-        #         note = "Napačno! Pravilen odgovor je " + str(int(x) + int(y))
-        #         style = "wrong"
-        #
-        #     todayCorrect = int(todayCorrect) + correct
-        #     todayWrong = int(todayWrong) + wrong
-        #
-        # if operator == "-":
-        #     if str(answer) == str(int(x) - int(y)):
-        #         correct = 1
-        #         note = "Bravo! pravilen odgovor!"
-        #         style = "correct"
-        #     else:
-        #         wrong = 1
-        #         note = "Napačno! Pravilen odgovor je " + str(int(x) - int(y))
-        #         style = "wrong"
-        #
-        #     todayCorrect = int(todayCorrect) + correct
-        #     todayWrong = int(todayWrong) + wrong
-        #
-        # if operator == "x":
-        #     if str(answer) == str(int(x) * int(y)):
-        #         correct = 1
-        #         note = "Bravo! pravilen odgovor!"
-        #         style = "correct"
-        #     else:
-        #         wrong = 1
-        #         note = "Napačno! Pravilen odgovor je " + str(int(x) * int(y))
-        #         style = "wrong"
-        #
-        #     todayCorrect = int(todayCorrect) + correct
-        #     todayWrong = int(todayWrong) + wrong
-        #
-        # elif operator == ":":
-        #     if str(answer) == str(int(x) / int(y)):
-        #         correct = 1
-        #         note = "Bravo! pravilen odgovor!"
-        #         style = "correct"
-        #     else:
-        #         wrong = 1
-        #         note = "Napačno! Pravilen odgovor je " + str(int(x) / int(y))
-        #         style = "wrong"
-        #     todayCorrect = int(todayCorrect) + correct
-        #     todayWrong = int(todayWrong) + wrong
 
         ### preverjanje ali je račun že vpisani in vpis ali je bil rešen pravilno ###
         try:
